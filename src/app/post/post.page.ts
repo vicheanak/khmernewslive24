@@ -12,8 +12,8 @@ import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 })
 export class PostPage implements OnInit {
 
-	private post;
-	private image: any;
+	public post;
+	public image: any;
 
 	constructor(private socialSharing: SocialSharing, public alertController: AlertController, private route: ActivatedRoute, private getPostService: GetPostService) { 
 

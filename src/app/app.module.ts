@@ -14,6 +14,49 @@ import { Facebook } from '@ionic-native/facebook/ngx';
 import { AdMobPro } from '@ionic-native/admob-pro/ngx';
 import { AppRate } from '@ionic-native/app-rate/ngx';
 
+import { Pro } from '@ionic/pro';
+
+import { ErrorHandler, Injectable, Injector } from '@angular/core';
+
+Pro.init('2bd9848f', {
+  appVersion: '1.0'
+})
+
+@Injectable()
+export class IonicErrorHandler extends ErrorHandler {
+
+  constructor(injector: Injectable) {
+    super();
+  }
+
+  handleError(error: any): void {
+    super.handleError(error);
+  }
+}
+
+
+@Injectable()
+export class MyErrorHandler implements ErrorHandler {
+  ionicErrorHandler: IonicErrorHandler;
+
+  constructor(injector: Injector) {
+    try {
+      this.ionicErrorHandler = injector.get(IonicErrorHandler);
+    } catch(e) {
+      // Unable to get the IonicErrorHandler provider, ensure
+      // IonicErrorHandler has been added to the providers list below
+    }
+  }
+
+  handleError(err: any): void {
+    Pro.monitoring.handleNewError(err);
+    // Remove this if you want to disable Ionic's auto exception handling
+    // in development mode.
+    this.ionicErrorHandler && this.ionicErrorHandler.handleError(err);
+  }
+}
+
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -29,7 +72,12 @@ import { AppRate } from '@ionic-native/app-rate/ngx';
     Facebook,
     AdMobPro,
     AppRate,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    IonicErrorHandler,
+    [
+      {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+      {provide: ErrorHandler, useClass: IonicErrorHandler}
+    ]
+    
   ],
   bootstrap: [AppComponent]
 })
