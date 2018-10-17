@@ -1,0 +1,34 @@
+<ion-header>
+	<ion-toolbar color="danger">
+		<ion-back-button defaultHref="/home"></ion-back-button>
+		<ion-title>{{post?.title}}</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+	
+	
+	
+	<img [defaultImage]="image.defaultImage" [lazyLoad]="post?.image" [offset]="image.offset" *ngIf="post?.image"/>
+
+	<div padding>
+		<div class="title" [innerHtml]="post?.title | safeHtml"></div>
+		<div class="date">
+			<ion-row no-padding>
+				<ion-col text-left>
+					<ion-button color="medium" fill="clear">
+						<span [innerHtml]="post?.category"></span> - {{post?.date | timeAgo}}
+					</ion-button>
+				</ion-col>
+				<ion-col text-right>
+					<ion-button (click)="shareFacebook(post)" shape="round" color="primary" fill="clear">
+						<ion-icon name='logo-facebook'></ion-icon>
+					</ion-button>
+				</ion-col>
+			</ion-row>
+		</div>
+		<div class="content" [innerHtml]="post?.content | safeHtml"></div>
+	</div>
+
+</ion-content>

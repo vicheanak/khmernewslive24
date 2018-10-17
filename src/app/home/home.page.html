@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      {{pageTitle}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+ <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+
+<!-- [href]="'/post/' + post.id" -->
+    
+    <ion-card class="my-card card" no-padding *ngFor="let post of posts">
+
+      <ion-item no-padding [href]="'/post/' + post.id">
+        <img [defaultImage]="post?.image" [lazyLoad]="post?.image" [offset]="image.offset" *ngIf="post?.image"/>
+      </ion-item>
+      <ion-item no-padding [href]="'/post/' + post.id">
+        <ion-card-content>
+          <ion-card-title>
+            <span class="title" [innerHtml]="post.title"></span>
+          </ion-card-title>
+        </ion-card-content>
+      </ion-item>
+      <ion-row no-padding>
+        <ion-col text-left>
+          <ion-button color="medium" fill="clear">
+            {{post?.date | timeAgo}}
+          </ion-button>
+        </ion-col>
+        <ion-col text-right>
+          <ion-button shape="round" color="primary" fill="clear" (click)="shareFacebook(post)">
+            <ion-icon name='logo-facebook'></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="រង់ចាំពត៌មានបន្ថែម...">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</ion-content>
